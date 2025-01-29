@@ -1,11 +1,11 @@
 const KEY_ACCESS_TOKEN = 'access-token';
 
 $(document).ready(function () {
-  if (location.pathname !== '/board/login') {
+  if (location.pathname !== '/login') {
     const accessToken = localStorage.getItem(KEY_ACCESS_TOKEN);
 
     if (!accessToken) {
-      location.href = '/board/login';
+      location.href = '/login';
     }
 
     apiPost(
@@ -13,7 +13,7 @@ $(document).ready(function () {
       {},
       function () {},
       function () {
-        location.href = '/board/login';
+        location.href = '/login';
       },
     );
   }
@@ -104,7 +104,7 @@ function logout() {
   removeCookie(KEY_ACCESS_TOKEN);
   localStorage.removeItem(KEY_ACCESS_TOKEN);
 
-  location.href = '/board/login';
+  location.href = '/login';
 }
 
 function modalOpen(id) {

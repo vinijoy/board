@@ -5,15 +5,26 @@ import { GeneralUtil } from 'src/util/general.util';
 import { BoardQuery } from './board.query';
 import { BoardService } from './board.service';
 
-@Controller('board')
+@Controller('')
 export class BoardController {
   constructor(private util: GeneralUtil, private service: BoardService) {}
 
   @Get()
+  @Render('index.ejs')
+  async index(@Request() req) {
+    const board_list = await this.service.getBoardList();
+
+    return {
+      board_list: board_list,
+      ...this.getCommonData(req)
+    };
+  }
+
+  @Get('board')
 // @UseGuards(AdminAccessGuard)
 @UseFilters(ViewAuthFilter)
   @Render('board.ejs')
-  async index(@Request() req) {
+  async board(@Request() req) {
     const board_list = await this.service.getBoardList();
 
     return {
@@ -30,7 +41,7 @@ export class BoardController {
     };
   }
 
-  @Get('create')
+  @Get('board_create')
   @Render('board_create.ejs')
   async createBoard(@Request() req) {
     const board_list = await this.service.getBoardList();

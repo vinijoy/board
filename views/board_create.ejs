@@ -53,7 +53,7 @@ return;
 
         apiPost('/api/board/create-board', data, function (data) {
           if (data.result_code === 'SUCCESS') {
-            location.reload();
+            location.href = '/';
           }
         }, function (error) {
           if (error) {
