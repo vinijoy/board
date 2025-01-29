@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<%- include('./layouts/head') %>
+<title>게시판 생성</title>
+</head>
+<body>
+<%- include('./layouts/lnb') %>
+
+<h1>게시판 생성</h1>
+<br/>
+<p>생성할 게시판 이름을 입력하세요.</p>
+<br/>
+<input
+type="text"
+id="b_name"
+placeholder="생성할 게시판 이름"/>
+<br/>
+
+<p>생성할 게시판의 식별자를 입력하세요.</p>
+<br/>
+<input
+type="text"
+id="b_id"
+placeholder="생성할 게시판 식별자"/>
+<br/>
+
+<button
+id="create_board"
+onclick="createBoard()">
+생성
+</button>
+<br/>
+
+<%- include('./layouts/footer') %>
+
+<script>
+function createBoard() {
+const data = {
+b_name: $('#b_name').val().trim(),
+b_id: $('#b_id').val().trim(),
+};
+
+if (!data.b_name) {
+alert('게시판 이름을 입력해주세요.');
+return;
+}
+
+if (!data.b_id) {
+alert('게시판 식별자를 입력해주세요.');
+return;
+}
+
+        apiPost('/api/board/create-board', data, function (data) {
+          if (data.result_code === 'SUCCESS') {
+            location.reload();
+          }
+        }, function (error) {
+          if (error) {
+            alert('오류가 발생했습니다.');
+            console.log(error);
+          }
+        });
+}
+</script>
+</body>
+</html>

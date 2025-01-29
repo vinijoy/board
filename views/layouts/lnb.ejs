@@ -1,0 +1,12 @@
+<p><a href="javascript:;" onclick="logout()">로그아웃</a></p>
+<br/>
+
+<p><a href="/board/create">게시판 생성</a></p>
+<br/>
+
+<% for (const el of board_list) { %>
+<div class="board-list">
+<p><a href="/board?gbn=<%= el.b_id %>"><%= el.b_name %></a></p>
+</div>
+<% } %>
+<br/>
