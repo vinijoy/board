@@ -32,6 +32,28 @@ onclick="createBoard()">
 </button>
 <br/>
 
+<table>
+<tr>
+<th>번호</th>
+<th>게시판 이름</th>
+<th>게시판 식별자</th>
+<th>수정</th>
+<th>삭제</th>
+</tr>
+<tbody>
+<% for (const el of board_list) { %>
+<tr>
+<td><%= el.b_no %></td>
+<td><%= el.b_name %></td>
+<td><%= el.b_id %></td>
+<td><a href="/board_update?b_no=<%= el.b_no %>">수정</a></td>
+<td><button onclick="removeBoard(<%= el.b_no %>)">삭제</button></td>
+</tr>
+<% } %>
+</tbody>
+</table>
+<br/>
+
 <%- include('./layouts/footer') %>
 
 <script>
@@ -62,6 +84,22 @@ return;
           }
         });
 }
+
+      function removeBoard(bNo) {
+        if (confirm('정말로 해당 게시판을 삭제하시겠습니까?')) {
+          apiDelete(
+            '/api/board/remove-board',
+            {
+              b_no: bNo,
+            },
+            function (data) {
+              if (data.result_code === 'SUCCESS') {
+                location.reload();
+              }
+            },
+          );
+        }
+      }
 </script>
 </body>
 </html>

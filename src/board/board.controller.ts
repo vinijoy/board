@@ -41,9 +41,9 @@ export class BoardController {
     };
   }
 
-  @Get('board_create')
-  @Render('board_create.ejs')
-  async createBoard(@Request() req) {
+  @Get('board_manage')
+  @Render('board_manage.ejs')
+  async manageBoard(@Request() req) {
     const board_list = await this.service.getBoardList();
 
     return {

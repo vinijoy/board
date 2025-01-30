@@ -21,6 +21,7 @@ export class BoardQuery {
   selectBoardList() {
     const q = `
       select
+        b_no,
         b_name,
         b_id
       from

@@ -1,9 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { ReqCreateBoardDto } from 'src/dto/board/create.board';
 
 @Injectable()
 export class BoardQuery {
-  insertBoard(data: ReqCreateBoardDto) {
+  insertBoard() {
     const q =`
       insert into
       tbl_board_list
@@ -13,6 +12,18 @@ export class BoardQuery {
         :b_name,
         :b_id
       )
+    `;
+
+    return q;
+  }
+
+  deleteBoard() {
+    const q =`
+      delete
+      from
+        tbl_board_list
+      where
+        b_no = :b_no
     `;
 
     return q;
