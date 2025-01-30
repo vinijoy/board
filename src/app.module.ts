@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { BoardModule } from './board/board.module';
+import { UtilModule } from './util/util.module';
 
 @Module({
   imports: [
@@ -9,6 +10,7 @@ import { BoardModule } from './board/board.module';
       envFilePath: './env/config.env',
     }),
     BoardModule,
+    UtilModule
   ],
   controllers: [],
   providers: [],

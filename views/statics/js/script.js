@@ -17,12 +17,6 @@ $(document).ready(function () {
       },
     );
   }
-
-  apiGet('/api/teacher/new-document-count', {}, function (data) {
-    if (data.result_code === 'SUCCESS' && data.result_data) {
-      $('.paperAlarm').addClass('new');
-    }
-  });
 });
 
 function apiAjax(type, url, params) {
