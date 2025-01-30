@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { MysqlUtil } from 'src/util/mysql.util';
 import { BoardQuery } from './board.query';
 import { BoardList } from 'src/data/model/board.list';

@@ -8,7 +8,7 @@ export class MysqlUtil {
   constructor() {
     this.pool = Mysql.createPool({
       host: process.env.DATABASE_URL,
-      port: parseInt(process.env.DATABASE_PORT),
+      port: parseInt(process.env.DATABASE_PORT || '3306'),
       user: process.env.DATABASE_USERNAME,
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
@@ -16,7 +16,7 @@ export class MysqlUtil {
       connectionLimit: Number(process.env.DATABASE_CONNECTION_LIMIT),
       charset: 'utf8mb4',
       queryFormat: (query: string, values: any) => {
-        let queryResult = null;
+        let queryResult: string | null = null;
 
         if (!values) {
           queryResult = query;

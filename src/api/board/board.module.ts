@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { BoardController } from './board.controller';
+import { ConfigService } from '@nestjs/config';
+import { JwtModule } from '@nestjs/jwt';
+import { PassportModule } from '@nestjs/passport';
+import { ApiBoardController } from './board.controller';
 import { BoardQuery } from './board.query';
 import { BoardService } from './board.service';
-import { PassportModule } from '@nestjs/passport';
-import { JwtModule } from '@nestjs/jwt';
-import { ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -16,7 +16,7 @@ import { ConfigService } from '@nestjs/config';
       }),
     }),
   ],
-  controllers: [BoardController],
-  providers: [BoardQuery, BoardService]
+  controllers: [ApiBoardController],
+  providers: [BoardService, BoardQuery],
 })
-export class BoardModule {}
+export class ApiBoardModule {}

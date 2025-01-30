@@ -1,6 +1,6 @@
-import { Controller, Get, Render, Request, Query, UseFilters, UseGuards } from '@nestjs/common';
-import { BoardService } from './board.service';
+import { Controller, Get, Render, Request, Query } from '@nestjs/common';
 import { GeneralUtil } from 'src/util/general.util';
+import { BoardService } from './board.service';
 
 @Controller('')
 export class BoardController {
@@ -17,6 +17,25 @@ export class BoardController {
     };
   }
 
+  @Get('board')
+  @Render('board.ejs')
+  async board(@Request() req) {
+    const board_list = await this.service.getBoardList();
+
+    return {
+      board_list: board_list,
+      ...this.getCommonData(req)
+    };
+  }
+
+  @Get('login')
+  @Render('login.ejs')
+  login(@Request() req) {
+    return {
+      ...this.getCommonData(req)
+    };
+  }
+
   @Get('board_manage')
   @Render('board_manage.ejs')
   async manageBoard(@Request() req) {
@@ -27,6 +46,7 @@ export class BoardController {
       ...this.getCommonData(req)
     };
   }
+
 
   getCommonData(req: any) {
     return {
