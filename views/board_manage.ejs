@@ -1,105 +1,108 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-<%- include('./layouts/head') %>
-<title>게시판 생성</title>
-</head>
-<body>
-<%- include('./layouts/lnb') %>
+  <head>
+    <%- include('./layouts/head') %>
+    <title>게시판 관리</title>
+  </head>
+  <body>
+    <%- include('./layouts/lnb') %>
 
-<h1>게시판 생성</h1>
-<br/>
-<p>생성할 게시판 이름을 입력하세요.</p>
-<br/>
-<input
-type="text"
-id="b_name"
-placeholder="생성할 게시판 이름"/>
-<br/>
+    <main>
+      <h1>게시판 생성</h1>
+      <br/>
+        <p>생성할 게시판 이름을 입력하세요.</p>
+        <br/>
+        <input
+        type="text"
+        id="b_name"
+        placeholder="생성할 게시판 이름"/>
+        <br/>
 
-<p>생성할 게시판의 식별자를 입력하세요.</p>
-<br/>
-<input
-type="text"
-id="b_id"
-placeholder="생성할 게시판 식별자"/>
-<br/>
+        <p>생성할 게시판의 식별자를 입력하세요.</p>
+        <br/>
+        <input
+        type="text"
+        id="b_id"
+        placeholder="생성할 게시판 식별자"/>
+        <br/>
 
-<button
-id="create_board"
-onclick="createBoard()">
-생성
-</button>
-<br/>
+        <button
+        id="create_board"
+        onclick="createBoard()">
+        생성
+        </button>
+        <br/>
 
-<table>
-<tr>
-<th>번호</th>
-<th>게시판 이름</th>
-<th>게시판 식별자</th>
-<th>수정</th>
-<th>삭제</th>
-</tr>
-<tbody>
-<% for (const el of board_list) { %>
-<tr>
-<td><%= el.b_no %></td>
-<td><%= el.b_name %></td>
-<td><%= el.b_id %></td>
-<td><a href="/board_update?b_no=<%= el.b_no %>">수정</a></td>
-<td><button onclick="removeBoard(<%= el.b_no %>)">삭제</button></td>
-</tr>
-<% } %>
-</tbody>
-</table>
-<br/>
+        <table>
+          <tr>
+            <th>번호</th>
+            <th>게시판 이름</th>
+            <th>게시판 식별자</th>
+            <th>수정</th>
+            <th>삭제</th>
+          </tr>
+          <tbody>
+            <% for (const el of board_list) { %>
+              <tr>
+                <td><%= el.b_no %></td>
+                <td><%= el.b_name %></td>
+                <td><%= el.b_id %></td>
+                <td><a href="/board_update?b_no=<%= el.b_no %>">수정</a></td>
+                <td><button onclick="removeBoard(<%= el.b_no %>)">삭제</button></td>
+              </tr>
+            <% } %>
+          </tbody>
+        </table>
+    </main>
+    <br/>
 
-<%- include('./layouts/footer') %>
+    <%- include('./layouts/footer') %>
 
-<script>
-function createBoard() {
-const data = {
-b_name: $('#b_name').val().trim(),
-b_id: $('#b_id').val().trim(),
-};
+    <script>
+      function createBoard() {
+        const data = {
+          b_name: $('#b_name').val().trim(),
+          b_id: $('#b_id').val().trim(),
+        };
 
-if (!data.b_name) {
-alert('게시판 이름을 입력해주세요.');
-return;
-}
+        if (!data.b_name) {
+          alert('게시판 이름을 입력해주세요.');
+          return;
+        }
 
-if (!data.b_id) {
-alert('게시판 식별자를 입력해주세요.');
-return;
-}
+        if (!data.b_id) {
+          alert('게시판 식별자를 입력해주세요.');
+          return;
+        }
 
         apiPost('/api/board/create-board', data, function (data) {
           if (data.result_code === 'SUCCESS') {
-            location.href = '/';
+            location.reload();
           }
         }, function (error) {
           if (error) {
             alert('오류가 발생했습니다.');
-            console.log(error);
           }
         });
-}
+      }
 
       function removeBoard(bNo) {
+        const data = {
+          b_no: bNo,
+        };
+
         if (confirm('정말로 해당 게시판을 삭제하시겠습니까?')) {
-          apiDelete(
-            '/api/board/remove-board',
-            {
-              b_no: bNo,
-            },
-            function (data) {
-              if (data.result_code === 'SUCCESS') {
-                location.reload();
-              }
-            },
-          );
+          apiDelete('/api/board/remove-board', data, function (data) {
+            if (data.result_code === 'SUCCESS') {
+              location.reload();
+            }
+          }, function (error) {
+            if (error) {
+              alert('오류가 발생했습니다.');
+            }
+          });
         }
       }
-</script>
-</body>
+    </script>
+  </body>
 </html>

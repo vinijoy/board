@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <%- include('./layouts/head') %>
+    <title><%= board_name.b_name %> > <%= post_info.bc_title %></title>
+  </head>
+  <body>
+    <%- include('./layouts/lnb') %>
+    <br/>
+
+    <main>
+      <h1><%= post_info.bc_title %></h1>
+      <br/>
+
+        <article>
+          <%= post_info.bc_description %>
+        </article>
+        <br/>
+
+      <p><a href="post_update?bc_no=<%= bc_no %>&b_id=<%= b_id %>">수정</a></p>
+      <br/>
+
+      <button
+      onclick="removePost()">
+      삭제
+      </button>
+    </main>
+    <br/>
+
+    <%- include('./layouts/footer') %>
+
+    <script>
+      function removePost() {
+        const data = {
+          bc_no: <%= bc_no %>
+        };
+
+        if (confirm('정말로 해당 게시물을 삭제하시겠습니까?')) {
+          apiDelete('/api/post/remove-post', data, function (data) {
+            if (data.result_code === 'SUCCESS') {
+              location.href = '/board?b_id=<%= b_id %>&u_no=1';
+            }
+          }, function (error) {
+            if (error) {
+              alert('오류가 발생했습니다.');
+            }
+          });
+        }
+      }
+    </script>
+  </body>
+</html>

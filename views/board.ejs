@@ -1,10 +1,25 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-<title>게시판</title>
-</head>
-<body>
-<%- include('./layouts/lnb') %>
-<%- include('./layouts/footer') %>
-</body>
+  <head>
+    <title><%= board_name.b_name %></title>
+  </head>
+  <body>
+    <%- include('./layouts/lnb') %>
+    <br/>
+
+    <main>
+      <h1><%= board_name.b_name %></h1>
+      <br/>
+
+        <p><a href="/post_write?b_no=<%= board_no.b_no %>&b_id=<%= b_id %>&u_no=1">글쓰기</a></p>
+        <br/>
+
+        <% for (const el of post_list) { %>
+          <p><a href="/post?bc_no=<%= el.bc_no %>&b_id=<%= b_id %>"><%= el.bc_title %></a></p>
+        <% } %>
+    </main>
+    <br/>
+
+    <%- include('./layouts/footer') %>
+  </body>
 </html>

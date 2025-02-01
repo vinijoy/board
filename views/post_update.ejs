@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <%- include('./layouts/head') %>
+    <title><%= board_name.b_name %> > 글 수정</title>
+  </head>
+  <body>
+    <%- include('./layouts/lnb') %>
+
+    <main>
+      <h1>글 수정</h1>
+      <br/>
+        <p>제목을 입력하세요.</p>
+        <br/>
+        <input
+        type="text"
+        id="bc_title"
+        placeholder="제목"
+        value="<%= post_info.bc_title %>"/>
+        <br/>
+
+        <p>내용을 입력하세요.</p>
+        <br/>
+        <input
+        type="text"
+        id="bc_description"
+        placeholder="내용"
+        value="<%= post_info.bc_description %>"/>
+        <br/>
+
+        <button
+        id="update_post"
+        onclick="modifyPost()">
+        수정
+        </button>
+    </main>
+    <br/>
+
+    <%- include('./layouts/footer') %>
+
+    <script>
+      function modifyPost() {
+        const data = {
+      bc_no: <%= bc_no %>,
+          bc_title: $('#bc_title').val().trim(),
+          bc_description: $('#bc_description').val().trim(),
+        };
+
+        if (!data.bc_title) {
+          alert('제목을 입력해주세요.');
+          return;
+        }
+
+        if (!data.bc_description) {
+          alert('내용을 입력해주세요.');
+          return;
+        }
+
+        apiPatch('/api/post/modify-post', data, function (data) {
+          if (data.result_code === 'SUCCESS') {
+            location.href = '/board?b_id=<%= b_id %>&u_no=1';
+          }
+        }, function (error) {
+          if (error) {
+            alert('오류가 발생했습니다.');
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

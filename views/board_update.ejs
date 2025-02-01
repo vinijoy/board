@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <%- include('./layouts/head') %>
+    <title>게시판 수정</title>
+  </head>
+  <body>
+    <%- include('./layouts/lnb') %>
+
+    <main>
+      <h1>게시판 수정</h1>
+      <br/>
+        <p>수정할 게시판 이름을 입력하세요.</p>
+        <br/>
+        <input
+        type="text"
+        id="b_name"
+        placeholder="수정할 게시판 이름"
+        value="<%= board_info.b_name %>"/>
+        <br/>
+
+        <p>수정할 게시판의 식별자를 입력하세요.</p>
+        <br/>
+        <input
+        type="text"
+        id="b_id"
+        placeholder="수정할 게시판 식별자"
+        value="<%= board_info.b_id %>"/>
+        <br/>
+
+        <button
+        id="update_board"
+        onclick="modifyBoard()">
+        수정
+        </button>
+    </main>
+    <br/>
+
+    <%- include('./layouts/footer') %>
+
+    <script>
+      function modifyBoard() {
+        const data = {
+          b_no: <%= board_info.b_no %>,
+          b_name: $('#b_name').val().trim(),
+          b_id: $('#b_id').val().trim(),
+        };
+
+        if (!data.b_name) {
+          alert('게시판 이름을 입력해주세요.');
+          return;
+        }
+
+        if (!data.b_id) {
+          alert('게시판 식별자를 입력해주세요.');
+          return;
+        }
+
+        apiPatch('/api/board/modify-board', data, function (data) {
+          if (data.result_code === 'SUCCESS') {
+            location.href = '/board_manage';
+          }
+        }, function (error) {
+          if (error) {
+            alert('오류가 발생했습니다.');
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

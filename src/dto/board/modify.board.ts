@@ -1,7 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString } from 'class-validator';
+import { IsNumber, IsString } from 'class-validator';
 
-export class ReqCreateBoardDto {
+export class ReqModifyBoardDto {
+  @ApiProperty({ description: '게시판 인덱스' })
+  @IsNumber()
+  b_no: number;
+
   @ApiProperty({ description: '게시판 이름' })
   @IsString()
   b_name: string;
