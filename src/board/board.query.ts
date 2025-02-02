@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { ReqReadPostListDto } from 'src/dto/post/read.post';
 
 @Injectable()
 export class BoardQuery {
@@ -44,11 +45,10 @@ export class BoardQuery {
     return q;
   }
 
-  selectPostList() {
+  selectPostCount(data: ReqReadPostListDto) {
     const q = `
       select
-        bc.bc_no,
-        bc.bc_title
+        count(bc_no) as bc_count
       from
         tbl_board_list as b
       left join
@@ -61,8 +61,32 @@ export class BoardQuery {
         bc.u_no = u.u_no
       where
         b.b_id = :b_id
-      and
-        bc.u_no = :u_no
+        ${data.keyword ? `and (bc.bc_title like concat('%', :keyword, '%') or bc.bc_description like concat('%', :keyword, '%'))` : ''}
+    `;
+
+    return q;
+  }
+
+  selectPostList(data: ReqReadPostListDto) {
+    const q = `
+      select
+        bc.bc_no,
+        bc.bc_title,
+        bc.bc_create_dt,
+        u.u_id
+      from
+        tbl_board_list as b
+      inner join
+        tbl_board_common as bc
+      on
+        b.b_no = bc.b_no
+      left join
+        tbl_user as u
+      on
+        bc.u_no = u.u_no
+      where
+        b.b_id = :b_id
+        ${data.keyword ? `and (bc.bc_title like concat('%', :keyword, '%') or bc.bc_description like concat('%', :keyword, '%'))` : ''}
       order by
         bc.bc_no desc
     `;
@@ -86,12 +110,19 @@ export class BoardQuery {
   selectPostInfo() {
     const q = `
       select
-        bc_title,
-        bc_description
+        bc.bc_title,
+        bc.bc_description,
+        bc.bc_create_dt,
+        bc.bc_update_dt,
+        u.u_id
       from
-        tbl_board_common
+        tbl_board_common as bc
+      left join
+        tbl_user as u
+      on
+        bc.u_no = u.u_no
       where
-        bc_no = :bc_no
+        bc.bc_no = :bc_no
     `;
 
     return q;

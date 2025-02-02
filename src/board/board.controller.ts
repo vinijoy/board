@@ -62,6 +62,7 @@ export class BoardController {
     const board_list = await this.service.getBoardList();
     const board_name = await this.service.getBoardName(b_id);
     const board_no = await this.service.getBoardNo(b_id);
+    const post_count = await this.service.getPostCount(data);
     const post_list = await this.service.getPostList(data);
 
     return {
@@ -69,6 +70,7 @@ export class BoardController {
       board_name: board_name,
       board_no: board_no,
       b_id: b_id,
+      post_count: post_count,
       post_list: post_list,
       ...this.getCommonData(req)
     };

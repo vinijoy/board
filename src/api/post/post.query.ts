@@ -9,6 +9,7 @@ export class PostQuery {
       (
         bc_title,
         bc_description,
+        bc_create_dt,
         b_no,
         u_no
       )
@@ -16,6 +17,7 @@ export class PostQuery {
       (
         :bc_title,
         :bc_description,
+        now(),
         :b_no,
         :u_no
       )
@@ -30,7 +32,8 @@ export class PostQuery {
       tbl_board_common
       set
         bc_title = :bc_title,
-        bc_description = :bc_description
+        bc_description = :bc_description,
+        bc_update_dt = now()
       where
         bc_no = :bc_no
     `;
