@@ -33,7 +33,6 @@ export class AuthService {
   async signinUser(data: ReqSigninUserDto) {
     const { user_id, user_pwd } = data;
     let user;
-
     try {
       const selectUserInfo = this.query.selectUserInfo();
       user =       await this.mysql.queryOne(selectUserInfo, { user_id: user_id }) as UserInfo[];
@@ -41,11 +40,16 @@ export class AuthService {
       throw new UnauthorizedException('존재하지 않는 아이디입니다.');
     }
 
-    if (user) {
-      const isMatch = await bcrypt.compare(user_pwd, user.u_pwd);
-      if (isMatch) {
-        return '로그인되었습니다.';
+    try {
+      if (user) {
+        const isMatch = await bcrypt.compare(user_pwd, user[0].u_pwd);
+        if (isMatch) {
+          return '로그인되었습니다.';
+        }
       }
+    } catch (error) {
+      console.log(error);
+      throw new UnauthorizedException('아이디 또는 비밀번호가 올바르지 않습니다.');
     }
 
     console.log('로그인 정보가 올바르지 않습니다.');
