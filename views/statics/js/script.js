@@ -1,30 +1,3 @@
-const KEY_ACCESS_TOKEN = 'access-token';
-
-$(document).ready(function () {
-  if (location.pathname !== '/login') {
-    const accessToken = localStorage.getItem(KEY_ACCESS_TOKEN);
-
-    if (!accessToken) {
-      location.href = '/login';
-    }
-
-    apiPost(
-      '/api/board/renew-token',
-      {},
-      function () {},
-      function () {
-        location.href = '/login';
-      },
-    );
-  }
-
-  apiGet('/api/teacher/new-document-count', {}, function (data) {
-    if (data.result_code === 'SUCCESS' && data.result_data) {
-      $('.paperAlarm').addClass('new');
-    }
-  });
-});
-
 function apiAjax(type, url, params) {
   if (!params) {
     params = {};
@@ -107,25 +80,6 @@ function logout() {
   location.href = '/login';
 }
 
-function modalOpen(id) {
-  var scrollTop = $('#content').scrollTop();
-  $('#content').addClass('modalOpen');
-  $('.modal-wrap')
-    .addClass('active')
-    .css({ top: scrollTop + 'px' });
-  $('#' + id).addClass('active');
-}
-
-function modalClose() {
-  $('.modal-wrap').removeClass('active');
-  $('#content').removeClass('modalOpen');
-  $('.modal').removeClass('active');
-}
-
-function subModalClose(id) {
-  $('#' + id).removeClass('active');
-}
-
 function setCookie(name, value, exp) {
   var date = new Date();
   date.setTime(date.getTime() + exp * 24 * 60 * 60 * 1000);
@@ -135,37 +89,4 @@ function setCookie(name, value, exp) {
 
 function removeCookie(name) {
   document.cookie = name + '=; expires=Thu, 01 Jan 1999 00:00:10 GMT;';
-}
-
-function downloadURI(uri, name) {
-  var _xhr = new XMLHttpRequest();
-  var _a = document.createElement('a');
-
-  _xhr.open('GET', uri, true);
-  _xhr.responseType = 'blob';
-  _xhr.onload = function () {
-    const file = new Blob([_xhr.response], { type: 'application/octet-stream' });
-    _a.href = window.URL.createObjectURL(file);
-    _a.download = name;
-    _a.click();
-  };
-  _xhr.send();
-}
-
-function GUID() {
-  function s4() {
-    return Math.floor((1 + Math.random()) * 0x10000)
-      .toString(16)
-      .substring(1);
-  }
-
-  return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
-}
-
-function numberPad(x) {
-  if (x < 10) {
-    return `0${x}`;
-  }
-
-  return x.toString();
 }

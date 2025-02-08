@@ -15,7 +15,8 @@
         <input
         type="text"
         id="b_name"
-        placeholder="생성할 게시판 이름"/>
+        placeholder="생성할 게시판 이름"
+        maxLength="20"/>
         <br/>
 
         <p>생성할 게시판의 식별자를 입력하세요.</p>
@@ -23,7 +24,8 @@
         <input
         type="text"
         id="b_id"
-        placeholder="생성할 게시판 식별자"/>
+        placeholder="생성할 게시판 식별자"
+        maxLength="5"/>
         <br/>
 
         <button
@@ -81,7 +83,7 @@
           }
         }, function (error) {
           if (error) {
-            alert('오류가 발생했습니다.');
+            alert(error.message);
           }
         });
       }
@@ -98,7 +100,7 @@
             }
           }, function (error) {
             if (error) {
-              alert('오류가 발생했습니다.');
+              alert(error.message);
             }
           });
         }

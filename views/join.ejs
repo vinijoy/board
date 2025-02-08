@@ -1,12 +1,11 @@
-<!-- 로그인 앤드포인트와 기능은 아직 구현하지 못 했습니다. -->
 <!DOCTYPE html>
 <html lang="ko">
   <head>
     <%- include('./layouts/head') %>
-    <title>로그인</title>
+    <title>회원 가입</title>
   </head>
   <body>
-    <h1>로그인</h1>
+    <h1>회원 가입</h1>
     <br/>
 
       <p>아이디</p>
@@ -26,13 +25,13 @@
       <br/>
 
       <button
-      onclick="signin()">
-      로그인
+      onclick="signup()">
+      회원 가입
       </button>
       <br/>
 
     <script>
-      function signin() {
+      function signup() {
         const data = {
           user_id: $('#user_id').val().trim(),
           user_pwd: $('#user_pwd').val().trim()
@@ -48,11 +47,9 @@
           return;
         }
 
-        apiPost('/api/auth/signin', data, function (data) {
+        apiPost('/api/auth/signup', data, function (data) {
           if (data.result_code === 'SUCCESS') {
-            setCookie(KEY_ACCESS_TOKEN, data.result_data.access_token);
-            localStorage.setItem(KEY_ACCESS_TOKEN, data.result_data.access_token);
-            location.href = '/';
+            location.href = '/login';
           }
         },
         function (error) {

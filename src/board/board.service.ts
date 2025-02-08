@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { MysqlUtil } from 'src/util/mysql.util';
 import { BoardQuery } from './board.query';
 import { ReqReadBoardInfoDto } from 'src/dto/board/read.board';
@@ -15,6 +15,8 @@ import { PostInfo } from 'src/data/model/post.info';
 @Injectable()
 export class BoardService {
   constructor(private mysql: MysqlUtil, private query: BoardQuery) {}
+
+//// 아래 모든 메소드에 대해서 단순 read(select) 기능에도 에러처리가 필요한 지 몰라서 우선 에러처리는 진행하지 않았습니다.
 
   async getBoardList() {
     const selectBoardList = this.query.selectBoardList();

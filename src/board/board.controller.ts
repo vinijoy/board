@@ -1,5 +1,4 @@
-import { Controller, Get, Render, Request, Query, UseFilters } from '@nestjs/common';
-import { HttpExceptionFilter } from 'src/filter/http-exceiption.filter';
+import { Controller, Get, Render, Request, Query } from '@nestjs/common';
 import { GeneralUtil } from 'src/util/general.util';
 import { BoardService } from './board.service';
 import { ReqReadBoardInfoDto } from 'src/dto/board/read.board';
@@ -8,9 +7,14 @@ import { ReqReadPostInfoDto } from 'src/dto/post/read.post';
 import { ReqWritePostDto } from 'src/dto/post/create.post';
 
 @Controller('')
-@UseFilters(HttpExceptionFilter)
 export class BoardController {
   constructor(private util: GeneralUtil, private service: BoardService) {}
+
+/*
+타입 유효성 체크는 전역에서 처리하도록 하고 제출했는데 문제가 생겨 해결했습니다. 죄송합니다.
+또한 로그인 기능이 아직 없어 권한에 대한 가드 및 필터는 적용되지 않은 상태입니다.
+로그인 기능이 없는 상태라 현재는 사용자를 식별하는 값을 하드코딩해서 전달되도록 하였습니다.
+*/
 
   @Get()
   @Render('index.ejs')
@@ -19,6 +23,14 @@ export class BoardController {
 
     return {
       board_list: board_list,
+      ...this.getCommonData(req)
+    };
+  }
+
+  @Get('join')
+  @Render('join.ejs')
+  join(@Request() req) {
+    return {
       ...this.getCommonData(req)
     };
   }

@@ -1,3 +1,4 @@
+<!-- 해당 페이지가 잘 동작하는 걸 확인한 후에 전역 타입 유효성 검사를 적용하고 제출했는데 에러가 발생하는 걸 제출 후에 발견했고 해결했습니다. 죄송합니다. -->
 <!DOCTYPE html>
 <html lang="ko">
   <head>
@@ -47,7 +48,7 @@
             }
           }, function (error) {
             if (error) {
-              alert('오류가 발생했습니다.');
+              alert(error.message);
             }
           });
         }

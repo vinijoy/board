@@ -15,9 +15,21 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const status = exception.getStatus();
 
     if (status === 400) {
+      const responseBody: any = exception.getResponse();
+
+      let errorMessage;
+      if (typeof responseBody === 'object' && responseBody.message) {
+        errorMessage =
+          Array.isArray(responseBody.message)
+            ? responseBody.message.join(', ')
+            : responseBody.message;
+      } else {
+        errorMessage = '타입 에러가 발생했습니다.';
+      }
+
       response.status(status).json({
         statusCode: status,
-        message: '잘못된 요청입니다.',
+        message: errorMessage,
         timestamp: new Date().toISOString(),
         path: request.url,
       });
@@ -47,7 +59,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
     if (status === 404) {
       response.status(status).json({
         statusCode: status,
-        message: '요청하신 페이지를 찾을 수 없습니다.',
+        message: '요청하신 URL을 찾을 수 없습니다.',
         timestamp: new Date().toISOString(),
         path: request.url,
       });
@@ -57,7 +69,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
     if (status === 405) {
       response.status(status).json({
         statusCode: status,
-        message: '허용되지 않는 메서드입니다.',
+        message: '요청하신 메서드는 해당 리소스에서 사용할 수 없습니다.',
         timestamp: new Date().toISOString(),
         path: request.url,
       });
@@ -65,13 +77,22 @@ export class HttpExceptionFilter implements ExceptionFilter {
     }
 
     if (status === 500) {
+      const errorMessage = exception.message || '서버 내부 오류가 발생했습니다.';
+
       response.status(status).json({
         statusCode: status,
-        message: '서버 내부 오류가 발생했습니다.',
+        message: errorMessage,
         timestamp: new Date().toISOString(),
         path: request.url,
       });
       return;
     }
+
+    response.status(status).json({
+      statusCode: status,
+      message: '오류가 발생했습니다.',
+      timestamp: new Date().toISOString(),
+      path: request.url,
+    });
   }
 }

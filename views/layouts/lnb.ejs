@@ -1,4 +1,11 @@
 <header>
+  <p><a href="/join">회원 가입</a></p>
+  <br/>
+
+  <p><a href="/login">로그인</a></p>
+  <br/>
+
+  <!-- 아직 로그인 기능을 만들지 않은 상태라 로그아웃 기능이 제대로 동작하지 않습니다. -->
   <p><a href="javascript:;" onclick="logout()">로그아웃</a></p>
   <br/>
 
@@ -10,7 +17,7 @@
 <nav>
   <% for (const el of board_list) { %>
     <div class="board-list">
-      <p><a href="/board?b_id=<%= el.b_id %>"><%= el.b_name %></a></p>
+      <p><a href="/board?b_id=<%= el.b_id %>&keyword="><%= el.b_name %></a></p>
     </div>
   <% } %>
 </nav>

@@ -18,6 +18,11 @@ import { ReqRemovePostDto } from 'src/dto/post/remove.post';
 export class ApiPostController {
   constructor(private service: PostService) {}
 
+/*
+타입 유효성 체크는 전역에서 처리하도록 하고 제출했는데 문제가 생겨 해결했습니다. 죄송합니다.
+또한 모든 리턴 값을 success로 하고 에러가 발생한 경우에는 서비스 단에서 500 에러를 발생시키도록 하고 클라이언트에게 보여줄 에러 메시지를 커스텀하여 전달하도록 하였습니다.
+*/
+
   @Post('create-post')
   @ApiOperation({ description: '게시물 생성' })
   @ApiOkResponse({ description: '게시물 생성 처리 성공 상태', type: String })
