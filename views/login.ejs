@@ -49,9 +49,12 @@
         }
 
         apiPost('/api/auth/signin', data, function (data) {
-          if (data.result_code === 'SUCCESS') {
-            setCookie(KEY_ACCESS_TOKEN, data.result_data.access_token);
-            localStorage.setItem(KEY_ACCESS_TOKEN, data.result_data.access_token);
+          console.log(data);
+          console.log(data[0].result_code.result_code);
+          console.log(data[0].access_token.accessToken);
+          if (data[0].result_code.result_code === 'SUCCESS') {
+            setCookie('access-token', data[0].access_token.accessToken);
+            localStorage.setItem('access-token', data[0].access_token.accessToken);
             location.href = '/';
           }
         },

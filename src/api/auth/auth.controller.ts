@@ -33,9 +33,16 @@ export class ApiAuthController {
   @ApiOperation({ description: '사용자 로그인' })
   @ApiOkResponse({ description: '사용자 로그인 처리 성공 상태', type: String })
   async signinUser(@Body() data: ReqSigninUserDto) {
-    await this.service.signinUser(data);
-//    const result = {
 
-    return new CommonDto(RESPONSE_CODE.SUCCESS);
+    const access_token = await this.service.signinUser(data);
+
+    const result = [
+      {
+        access_token: access_token,
+        result_code: new CommonDto(RESPONSE_CODE.SUCCESS)
+      }
+    ];
+
+    return result;
   }
 }

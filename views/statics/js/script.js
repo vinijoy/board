@@ -74,8 +74,8 @@ function apiDelete(url, data = {}, success = function () {}, fail = function () 
 }
 
 function logout() {
-  removeCookie(KEY_ACCESS_TOKEN);
-  localStorage.removeItem(KEY_ACCESS_TOKEN);
+  removeCookie('access-token');
+  localStorage.removeItem('access-token');
 
   location.href = '/login';
 }
